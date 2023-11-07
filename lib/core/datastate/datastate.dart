@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-abstract class DataState<T> {
+abstract class DataState<T, E> {
   final T? data;
-  final FirebaseAuthException? exception;
+  final E? exception;
   const DataState({this.data, this.exception});
 }
 
-class DataSuccess<T> extends DataState<T> {
+class DataSuccess<T, E> extends DataState<T, E> {
   const DataSuccess(T data) : super(data: data);
 }
 
-class DataError<T> extends DataState<T> {
-  const DataError(FirebaseAuthException exception) : super(exception: exception);
+class DataError<T, E> extends DataState<T, E> {
+  const DataError(E exception) : super(exception: exception);
 }

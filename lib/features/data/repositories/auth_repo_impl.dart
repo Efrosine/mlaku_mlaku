@@ -11,7 +11,7 @@ class AuthRepoImpl extends AuthRepo {
 
   AuthRepoImpl(this._service);
   @override
-  Future<DataState<UserEntity>> getCurrentUser() {
+  Future<DataState<UserEntity, FirebaseAuthException>> getCurrentUser() {
     // TODO: implement getCurrentUser
     throw UnimplementedError();
   }
@@ -23,7 +23,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<DataState<UserEntity>> signIn(UserEntity user) async {
+  Future<DataState<UserEntity, FirebaseAuthException>> signIn(UserEntity user) async {
     try {
       final result = await _service.signIn(UserModel.fromEntity(user));
       return DataSuccess(UserEntity(
@@ -42,7 +42,7 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<DataState<UserEntity>> signUp(UserEntity user) async {
+  Future<DataState<UserEntity, FirebaseAuthException>> signUp(UserEntity user) async {
     try {
       final result = await _service.signUp(UserModel.fromEntity(user));
       return DataSuccess(UserEntity(
