@@ -1,28 +1,29 @@
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
-  final String? name;
-  final String? email;
-  final String? password;
-  final String? phone;
-  final String? address;
-  final String? image;
-
   const UserEntity({
+    required this.id,
     this.name,
     this.email,
-    this.password,
-    this.phone,
-    this.address,
-    this.image,
+    this.photo,
   });
+
+  final String? email;
+  final String? id;
+  final String? name;
+  final String? photo;
+
+  static const empty = UserEntity(id: '');
+
+  bool get isEmpty => this == UserEntity.empty;
+
+  bool get isNotEmpty => this != UserEntity.empty;
+
   @override
   List<Object?> get props => [
-        name,
         email,
-        password,
-        phone,
-        address,
-        image,
+        id,
+        name,
+        photo,
       ];
 }

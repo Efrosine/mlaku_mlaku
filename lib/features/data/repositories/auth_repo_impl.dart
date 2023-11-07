@@ -30,7 +30,7 @@ class AuthRepoImpl extends AuthRepo {
           name: result.user!.displayName,
           email: result.user!.email,
           phone: result.user!.phoneNumber,
-          image: result.user!.photoURL));
+          photo: result.user!.photoURL));
     } on FirebaseAuthException catch (e) {
       return DataError(e);
     }
@@ -49,7 +49,7 @@ class AuthRepoImpl extends AuthRepo {
           name: result.user!.displayName,
           email: result.user!.email,
           phone: result.user!.phoneNumber,
-          image: result.user!.photoURL));
+          photo: result.user!.photoURL));
     } on FirebaseAuthException catch (e) {
       return DataError(e);
     }

@@ -13,8 +13,8 @@ class UserModel extends UserEntity {
           email: email,
           password: password,
           phone: phone,
-          address: address,
-          image: image,
+          id: address,
+          photo: image,
         );
 
   factory UserModel.fromEntity(UserEntity entity) {
@@ -23,8 +23,8 @@ class UserModel extends UserEntity {
       email: entity.email,
       password: entity.password,
       phone: entity.phone,
-      address: entity.address,
-      image: entity.image,
+      address: entity.id,
+      image: entity.photo,
     );
   }
 }
