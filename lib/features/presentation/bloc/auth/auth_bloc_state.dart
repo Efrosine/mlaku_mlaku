@@ -13,10 +13,8 @@ sealed class AuthBlocState extends Equatable {
 }
 
 sealed class AuthBlocActionState extends AuthBlocState {
-  const AuthBlocActionState({
-    UserEntity? user,
-    FirebaseAuthException? exception,
-  }) : super(user: user, exception: exception);
+  final String? errorCode;
+  const AuthBlocActionState({this.errorCode});
 }
 
 final class AuthBlocInitial extends AuthBlocState {}
@@ -26,9 +24,9 @@ class AuthBlocStateSignIn extends AuthBlocState {}
 class AuthBlocStateSignUp extends AuthBlocState {}
 
 class AuthBlocStateDone extends AuthBlocActionState {
-  const AuthBlocStateDone(UserEntity user) : super(user: user);
+  const AuthBlocStateDone();
 }
 
 class AuthBlocStateError extends AuthBlocActionState {
-  const AuthBlocStateError(FirebaseAuthException exception) : super(exception: exception);
+  const AuthBlocStateError(String errorCode) : super(errorCode: errorCode);
 }

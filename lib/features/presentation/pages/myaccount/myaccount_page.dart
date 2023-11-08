@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/auth/auth_bloc_bloc.dart';
 
 class MyAccountPage extends StatelessWidget {
   MyAccountPage({super.key});
-  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,12 +15,7 @@ class MyAccountPage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
-                _auth.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/',
-                  (route) => route.isFirst,
-                );
+                BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventLogout());
               },
             )
           ],

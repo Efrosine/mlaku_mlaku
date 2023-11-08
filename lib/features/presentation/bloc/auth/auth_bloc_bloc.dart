@@ -12,18 +12,27 @@ part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
 
 class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
-  final SignInUseCase _signInUseCase;
-  final SignUpUseCase _signUpUseCase;
+  AuthBlocBloc(
+    this._logInUseCase,
+    this._signUpUseCase,
+    this._authCheckUseCase,
+    this._loginCheckUseCase,
+    this._logOutUseCase,
+  ) : super(AuthBlocInitial()) {
+    on<AuthBlocEventInit>(_init);
+    on<AuthBlocEventChangeAuth>(_changeAuth);
+    on<AuthBlocEventLogIn>(_logIn);
+    on<AuthBlocEventSignUp>(_signUp);
+    on<AuthBlocEventLogout>(_logOut);
+  }
+
   bool isLogin = true;
 
-  AuthBlocBloc(
-    this._signInUseCase,
-    this._signUpUseCase,
-  ) : super(AuthBlocInitial()) {
-    on<AuthBlocEventChangeAuth>(_changeAuth);
-    on<AuthBlocEventSignIn>(_signIn);
-    on<AuthBlocEventSignUp>(_signUp);
-  }
+  final AuthCheckUseCase _authCheckUseCase;
+  final LogInUseCase _logInUseCase;
+  final LoginCheckUseCase _loginCheckUseCase;
+  final SignUpUseCase _signUpUseCase;
+  final LogOutUseCase _logOutUseCase;
 
   FutureOr<void> _changeAuth(AuthBlocEventChangeAuth event, Emitter<AuthBlocState> emit) {
     if (isLogin) {
@@ -35,23 +44,39 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     }
   }
 
-  FutureOr<void> _signIn(AuthBlocEventSignIn event, Emitter<AuthBlocState> emit) async {
-    await _signInUseCase(params: event.user).then((dataState) {
-      if (dataState is DataSuccess && dataState.data != null) {
-        emit(AuthBlocStateDone(dataState.data!));
+  FutureOr<void> _logIn(AuthBlocEventLogIn event, Emitter<AuthBlocState> emit) async {
+    await _logInUseCase(params: event.user).then((dataState) {
+      if (dataState is DataSuccess) {
+        emit(AuthBlocStateDone());
       } else if (dataState is DataError) {
-        emit(AuthBlocStateError(dataState.exception!));
+        emit(AuthBlocStateError(dataState.exception!.message));
       }
     });
   }
 
   FutureOr<void> _signUp(AuthBlocEventSignUp event, Emitter<AuthBlocState> emit) async {
     await _signUpUseCase(params: event.user).then((dataState) {
-      if (dataState is DataSuccess && dataState.data != null) {
-        emit(AuthBlocStateDone(dataState.data!));
+      if (dataState is DataSuccess) {
+        emit(AuthBlocStateDone());
       } else if (dataState is DataError) {
-        emit(AuthBlocStateError(dataState.exception!));
+        emit(AuthBlocStateError(dataState.exception!.message));
       }
     });
+  }
+
+  FutureOr<void> _init(AuthBlocEventInit event, Emitter<AuthBlocState> emit) {
+    _authCheckUseCase();
+    _loginCheckUseCase().then((value) {
+      if (value) {
+        emit(AuthBlocStateDone());
+      } else {
+        emit(AuthBlocStateSignIn());
+      }
+    });
+  }
+
+  FutureOr<void> _logOut(AuthBlocEventLogout event, Emitter<AuthBlocState> emit) async {
+    final result = await _logOutUseCase();
+    if (result is DataSuccess) emit(AuthBlocStateSignIn());
   }
 }

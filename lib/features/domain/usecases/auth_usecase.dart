@@ -1,64 +1,60 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mlaku_mlaku/core/datastate/auth_exception.dart';
+import 'package:mlaku_mlaku/core/datastate/datastate.dart';
+import 'package:mlaku_mlaku/core/usecases/usecases.dart';
+import 'package:mlaku_mlaku/features/domain/entities/user_ent.dart';
+import 'package:mlaku_mlaku/features/domain/repositories/auth_repo.dart';
 
-import '../../../core/datastate/datastate.dart';
-import '../../../core/usecases/usecases.dart';
-import '../entities/user_ent.dart';
-import '../repositories/auth_repo.dart';
-
-class SignInUseCase
-    extends UseCase<DataState<UserEntity, FirebaseAuthException>, UserEntity> {
-  final AuthRepo _repo;
-
-  SignInUseCase(this._repo);
-
-  @override
-  Future<DataState<UserEntity, FirebaseAuthException>> call({UserEntity? params}) {
-    return _repo.signIn(params!);
-  }
-}
-
-class SignUpUseCase
-    extends UseCase<DataState<UserEntity, FirebaseAuthException>, UserEntity> {
+class SignUpUseCase extends UseCase<DataState<void, SignUpEnPException>, UserEntity> {
   final AuthRepo _repo;
 
   SignUpUseCase(this._repo);
 
   @override
-  Future<DataState<UserEntity, FirebaseAuthException>> call({UserEntity? params}) {
+  Future<DataState<void, SignUpEnPException>> call({UserEntity? params}) {
     return _repo.signUp(params!);
   }
 }
 
-class SignOutUseCase extends UseCase<void, void> {
+class LogInUseCase extends UseCase<DataState<void, LogInEnPException>, UserEntity> {
   final AuthRepo _repo;
 
-  SignOutUseCase(this._repo);
+  LogInUseCase(this._repo);
+
+  @override
+  Future<DataState<void, LogInEnPException>> call({UserEntity? params}) {
+    return _repo.logIn(params!);
+  }
+}
+
+class LogOutUseCase extends UseCase<DataState<void, LogOutException>, void> {
+  final AuthRepo _repo;
+
+  LogOutUseCase(this._repo);
+
+  @override
+  Future<DataState<void, LogOutException>> call({void params}) {
+    return _repo.logout();
+  }
+}
+
+class AuthCheckUseCase extends UseCase<void, void> {
+  final AuthRepo _repo;
+
+  AuthCheckUseCase(this._repo);
 
   @override
   Future<void> call({void params}) {
-    return _repo.signOut();
+    return _repo.authCheck();
   }
 }
 
-class GetCurrentUserUseCase
-    extends UseCase<DataState<UserEntity, FirebaseAuthException>, void> {
+class LoginCheckUseCase extends UseCase<bool, void> {
   final AuthRepo _repo;
 
-  GetCurrentUserUseCase(this._repo);
-
-  @override
-  Future<DataState<UserEntity, FirebaseAuthException>> call({void params}) {
-    return _repo.getCurrentUser();
-  }
-}
-
-class IsSignedInUseCase extends UseCase<bool, void> {
-  final AuthRepo _repo;
-
-  IsSignedInUseCase(this._repo);
+  LoginCheckUseCase(this._repo);
 
   @override
   Future<bool> call({void params}) {
-    return _repo.isSignedIn();
+    return _repo.loginCheck();
   }
 }

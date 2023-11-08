@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthBlocBloc>(
-      create: (context) => sl()..add(AuthBlocEventChangeAuth()),
+      create: (context) => sl()..add(AuthBlocEventInit()),
       child: MaterialApp(
         onGenerateRoute: AppRoute.onGenerateRoute,
         initialRoute: '/',

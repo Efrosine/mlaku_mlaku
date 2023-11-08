@@ -63,7 +63,7 @@ class AuthWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (isLogin) {
-                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventSignIn(
+                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventLogIn(
                     UserEntity(
                       email: emailController.text,
                       password: passwordController.text,
