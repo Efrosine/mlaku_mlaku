@@ -14,6 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
+  flutter_carousel_widget: ^2.1.2
   flutter_native_splash: ^2.3.5
   get_it: ^7.6.4
   intl: ^0.18.1
@@ -25,10 +26,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/image/
+    - assets/image/promo/
 
 flutter_native_splash:
   android: true
   ios: false
   web: false
 
-  background_image: assets/splash.jpg
+  background_image: assets/image/splash.jpg
