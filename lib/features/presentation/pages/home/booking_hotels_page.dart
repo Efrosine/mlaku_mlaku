@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bloc.dart';
 
+import '../../../../injection_container.dart';
 import '../../widgets/globalcomponent/comp_custom_carousel.dart';
 import '../../widgets/globalcomponent/comp_text_field_date.dart';
 import '../../widgets/globalcomponent/comp_text_field_search.dart';
@@ -65,8 +66,8 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
   @override
   Widget build(BuildContext context) {
     final control = TextEditingController();
-    return BlocProvider(
-      create: (context) => BookingHotelsBloc(),
+    return BlocProvider<BookingHotelsBloc>(
+      create: (context) => sl()..add(BookingStartedEvent()),
       child: Scaffold(
         body: Column(
           children: [
@@ -89,25 +90,25 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(height: 12),
-                          CTextfiedSearch(
-                              options: options,
-                              label: 'Province',
-                              icons: Icons.home_work_outlined,
-                              onSaved: print),
+                          BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
+                              builder: (context, state) {
+                            return CTextfiedSearch(
+                                options: state.options ?? [],
+                                label: 'Province',
+                                icons: Icons.home_work_outlined,
+                                onSaved: print);
+                          }),
                           SizedBox(height: 16),
                           BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                            // buildWhen: (previous, current) {
-                            //   var bol = previous.firstDes != current.firstDes;
-                            //   print('check');
-                            //   print(bol);
-                            //   return bol;
-                            // },
-                            builder: (context, state) {
-                              print('ini builder ${state.firstDes}');
+                            buildWhen: (previous, current) {
+                              var bol = previous.firstDes != current.firstDes;
 
+                              return bol;
+                            },
+                            builder: (context, state) {
                               return CTextfiedSearch(
                                 isEnable: state.isDesValid,
-                                options: options,
+                                options: [],
                                 label: 'City',
                                 icons: Icons.location_city,
                                 onSaved: (p0) => print(p0),
@@ -132,8 +133,8 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                             height: 16,
                           ),
                           BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                            // buildWhen: (previous, current) =>
-                            //     previous.firstDate != current.firstDate,
+                            buildWhen: (previous, current) =>
+                                previous.firstDate != current.firstDate,
                             builder: (context, state) {
                               print(state.firstDate);
                               return CTextfieldDate(

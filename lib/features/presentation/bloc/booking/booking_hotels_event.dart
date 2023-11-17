@@ -7,25 +7,27 @@ sealed class BookingHotelsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class BookingFirstDateChanged extends BookingHotelsEvent {
-  final DateTime firstDate;
+final class BookingStartedEvent extends BookingHotelsEvent {}
 
-  const BookingFirstDateChanged(this.firstDate);
-
-  @override
-  List<Object> get props => [firstDate];
-}
-
-final class BookingFirstDesChanged extends BookingHotelsEvent {
+final class BookingFirstDesChangedEvent extends BookingHotelsEvent {
   final String des;
   final bool isDesValid;
 
-  BookingFirstDesChanged(this.des, this.isDesValid);
+  BookingFirstDesChangedEvent(this.des, this.isDesValid);
 
   @override
   List<Object> get props => [des, isDesValid];
 }
 
-final class BookingSubmitted extends BookingHotelsEvent {
-  const BookingSubmitted();
+final class BookingFirstDateChangedEvent extends BookingHotelsEvent {
+  final DateTime firstDate;
+
+  const BookingFirstDateChangedEvent(this.firstDate);
+
+  @override
+  List<Object> get props => [firstDate];
+}
+
+final class BookingSubmittedEvent extends BookingHotelsEvent {
+  const BookingSubmittedEvent();
 }

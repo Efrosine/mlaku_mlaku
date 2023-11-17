@@ -10,16 +10,23 @@ class GeoRepoImpl extends GeoRepo {
 
   GeoRepoImpl(this._service);
   @override
-  Future<DataState<List<GeoModel>, void>> getCity(String provId) {
-    try {
-      final respon = _service.getProv();
-      final data = respon.data['data'] as List;
-    } catch (e) {}
+  Future<DataState<List<GeoModel>, void>> getCity(String provId) async {
+    throw UnimplementedError();
   }
 
   @override
-  Future<DataState<List<GeoModel>, void>> getProv() {
-    // TODO: implement getProv
-    throw UnimplementedError();
+  Future<DataState<List<GeoModel>, void>> getProv() async {
+    try {
+      final respon = await _service.getProv();
+      print('inistatuscode');
+      print(respon.statusCode);
+      final data = respon.data['data'] as List;
+      final result = data.map((e) => GeoModel.fromJson(e)).toList();
+      return DataSuccess(result);
+    } catch (e) {
+      print('ini error');
+      print(e);
+      return const DataError(null);
+    }
   }
 }

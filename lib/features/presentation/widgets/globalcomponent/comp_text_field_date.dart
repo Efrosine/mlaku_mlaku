@@ -32,7 +32,7 @@ class CTextfieldDate extends StatelessWidget {
       if (value != null) {
         print('ok');
         controller.text = value.toHumanString();
-        context.read<BookingHotelsBloc>().add(BookingFirstDateChanged(value));
+        context.read<BookingHotelsBloc>().add(BookingFirstDateChangedEvent(value));
       }
     });
   }
