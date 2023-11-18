@@ -38,13 +38,27 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   }
 
   FutureOr<void> _onFirstDesChange(
-      BookingFirstDesChangedEvent event, Emitter<BookingHotelsState> emit) {
+      BookingFirstDesChangedEvent event, Emitter<BookingHotelsState> emit) async {
     String? idFirstDes = event.idDes;
     bool? isFirstDesValid = event.isFirstDesValid;
-
-    print('change first des');
-    emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
-    emit(BookingStandbyState());
+    if (isFirstDesValid) {
+      final dataState = await _getCityUseCase(params: idFirstDes);
+      if (dataState is DataSuccess) {
+        print('data berhasilkota');
+        print('panjang kota ${dataState.data!.length}');
+        emit(BookingDesChangedState(
+            optionsCity: dataState.data!, isFirstDesValid: isFirstDesValid));
+        emit(BookingStandbyState());
+      } else {
+        print('data gagal1');
+        emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
+        emit(BookingStandbyState());
+      }
+    } else {
+      print('data gagal2');
+      emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
+      emit(BookingStandbyState());
+    }
   }
 
   FutureOr<void> _onFirstDateChange(

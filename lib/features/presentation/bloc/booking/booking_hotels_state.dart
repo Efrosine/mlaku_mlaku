@@ -43,8 +43,9 @@ final class BookingInitialState extends BookingHotelsState {
 final class BookingDesChangedState extends BookingHotelsState {
   final List<GeoEntity> optionsCity;
   final bool isFirstDesValid;
-  const BookingDesChangedState(
-      {required this.optionsCity, required this.isFirstDesValid});
+  BookingDesChangedState({required this.optionsCity, required this.isFirstDesValid}) {
+    print('ini state ${this.optionsCity.length}');
+  }
 }
 
 final class BookingDateChangedState extends BookingHotelsState {

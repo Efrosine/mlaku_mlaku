@@ -43,7 +43,7 @@ class GeoService {
 
   Future<Response> getCity(String provId) async {
     return await _dio.get(
-      'https://api.goapi.io/api/v1/region/kabupaten?id_provinsi=$provId',
+      'https://api.goapi.io/regional/kota?provinsi_id=$provId',
       options: Options(
         headers: {
           'X-API-KEY': '2f428b6a-d208-5689-1ea1-644f92e4',

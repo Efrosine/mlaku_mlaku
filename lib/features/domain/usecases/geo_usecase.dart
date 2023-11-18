@@ -20,6 +20,7 @@ class GetCityUseCase extends UseCase<DataState<List<GeoEntity>, void>, String> {
   GetCityUseCase({required GeoRepo geoRepo}) : _geoRepo = geoRepo;
   @override
   Future<DataState<List<GeoEntity>, void>> call({String? params}) {
+    print('ini param $params');
     return _geoRepo.getCity(params!);
   }
 }

@@ -110,7 +110,7 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                             builder: (context, state) {
                               return CTextfiedSearch(
                                 isEnable: state.isFirstDesValid,
-                                options: [],
+                                options: state.optionsCity ?? [],
                                 label: 'City',
                                 icons: Icons.location_city,
                                 onSaved: (p0) => print(p0),
