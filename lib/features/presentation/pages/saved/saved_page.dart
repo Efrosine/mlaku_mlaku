@@ -19,73 +19,7 @@ class SavedPage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    String? imageUrl, name, location, desc;
-                    int? price;
-                    return Dialog(
-                      //create from field for fill hotels data
-
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              onChanged: (value) => imageUrl = value,
-                              decoration: InputDecoration(
-                                labelText: 'Image Urls',
-                              ),
-                            ),
-                            TextField(
-                              onChanged: (value) => name = value,
-                              decoration: InputDecoration(
-                                labelText: 'Name',
-                              ),
-                            ),
-                            TextField(
-                              onChanged: (value) => location = value,
-                              decoration: InputDecoration(
-                                labelText: 'Location',
-                              ),
-                            ),
-                            TextField(
-                              onChanged: (value) => desc = value,
-                              decoration: InputDecoration(
-                                labelText: 'Desc',
-                              ),
-                            ),
-                            TextField(
-                              keyboardType: TextInputType.number,
-                              onChanged: (value) => price = int.parse(value),
-                              decoration: InputDecoration(
-                                labelText: 'Price',
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  db.addData(HotelModel(
-                                    imageUrls: imageUrl!,
-                                    name: name!,
-                                    location: location!,
-                                    desc: desc!,
-                                    price: price!,
-                                    rating: 4.5,
-                                    star: 4,
-                                  ));
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Save'))
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+                showInsertDialog(context);
               },
               icon: Icon(Icons.add))
         ],
@@ -129,46 +63,28 @@ class SavedPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      header: Row(children: [
-                        IconButton(
+                      header: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  String? name;
-                                  return Dialog(
-                                      child: Container(
-                                    child: Column(
-                                      children: [
-                                        TextField(
-                                          onChanged: (value) => name = value,
-                                          decoration: InputDecoration(
-                                            labelText: 'Name',
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 16,
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              db.updateData(
-                                                  userList[index].id, {'name': name});
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text('Save')),
-                                      ],
-                                    ),
-                                  ));
-                                },
-                              );
+                              showEditDialog(context, userList, index);
                             },
-                            icon: Icon(Icons.edit)),
-                        IconButton(
-                            onPressed: () {
-                              db.deleteData(userList[index].id);
-                            },
-                            icon: Icon(Icons.delete)),
-                      ]),
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                db.deleteData(userList[index].id);
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              )),
+                        ],
+                      ),
                       footer: Container(
                         color: Colors.white,
                         padding: EdgeInsets.all(16),
@@ -202,6 +118,109 @@ class SavedPage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Future<dynamic> showEditDialog(
+      BuildContext context, List<QueryDocumentSnapshot<Object?>> userList, int index) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        String? name;
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  onChanged: (value) => name = value,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      db.updateData(userList[index].id, {'name': name});
+                      Navigator.pop(context);
+                    },
+                    child: Text('Save')),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showInsertDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        String? imageUrl, name, location, desc;
+        int? price;
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  onChanged: (value) => imageUrl = value,
+                  decoration: InputDecoration(
+                    labelText: 'Image Urls',
+                  ),
+                ),
+                TextField(
+                  onChanged: (value) => name = value,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                  ),
+                ),
+                TextField(
+                  onChanged: (value) => location = value,
+                  decoration: InputDecoration(
+                    labelText: 'Location',
+                  ),
+                ),
+                TextField(
+                  onChanged: (value) => desc = value,
+                  decoration: InputDecoration(
+                    labelText: 'Desc',
+                  ),
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => price = int.parse(value),
+                  decoration: InputDecoration(
+                    labelText: 'Price',
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      db.addData(HotelModel(
+                        imageUrls: imageUrl!,
+                        name: name!,
+                        location: location!,
+                        desc: desc!,
+                        price: price!,
+                        rating: 4.5,
+                        star: 4,
+                      ));
+                      Navigator.pop(context);
+                    },
+                    child: Text('Save'))
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

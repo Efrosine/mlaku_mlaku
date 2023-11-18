@@ -4,18 +4,6 @@ import 'package:mlaku_mlaku/features/data/model/hotel_model.dart';
 class FirestoreService {
   final db = FirebaseFirestore.instance;
 
-  Future<List<HotelModel>> getAllData() async {
-    return db.collection('dataHotels').get().then((value) {
-      final List<HotelModel> hasil = [];
-      for (var element in value.docs) {
-        hasil.add(HotelModel.fromJson(element.data()));
-      }
-      return hasil;
-    }, onError: (e) {
-      return [];
-    });
-  }
-
   Stream<QuerySnapshot> getDocHotels() {
     return db.collection('dataHotels').snapshots();
   }
