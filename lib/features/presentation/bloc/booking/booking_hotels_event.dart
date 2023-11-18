@@ -13,7 +13,7 @@ final class BookingFirstDesChangedEvent extends BookingHotelsEvent {
   final String? idDes;
   final bool isFirstDesValid;
 
-  BookingFirstDesChangedEvent(this.idDes, this.isFirstDesValid);
+  const BookingFirstDesChangedEvent({this.idDes, required this.isFirstDesValid});
 
   @override
   List<Object> get props => [idDes ?? '', isFirstDesValid];
@@ -21,8 +21,10 @@ final class BookingFirstDesChangedEvent extends BookingHotelsEvent {
 
 final class BookingFirstDateChangedEvent extends BookingHotelsEvent {
   final DateTime firstDate;
+  final bool isFristDateValid;
 
-  const BookingFirstDateChangedEvent(this.firstDate);
+  const BookingFirstDateChangedEvent(
+      {required this.firstDate, required this.isFristDateValid});
 
   @override
   List<Object> get props => [firstDate];

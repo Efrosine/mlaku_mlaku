@@ -19,32 +19,34 @@ class CTextfieldDate extends StatelessWidget {
   final DateTime startDate;
   final bool isEnable, isFirstDate;
 
-  final controller = TextEditingController();
+  final _controller = TextEditingController();
 
   final _focusNode = FocusNode();
 
   _selectDate(BuildContext context) {
     showDatePicker(
-            context: context,
-            initialDate: startDate,
-            firstDate: startDate,
-            lastDate: DateTime.now().add(Duration(days: 30)))
-        .then((value) {
-      if (value != null) {
-        print('ok');
-        controller.text = value.toHumanString();
-        if (isFirstDate) {
-          context.read<BookingHotelsBloc>().add(BookingFirstDateChangedEvent(value));
+      context: context,
+      initialDate: startDate,
+      firstDate: startDate,
+      lastDate: DateTime.now().add(Duration(days: 30)),
+    ).then(
+      (value) {
+        if (value != null) {
+          _controller.text = value.toHumanString();
+          if (isFirstDate) {
+            context.read<BookingHotelsBloc>().add(
+                BookingFirstDateChangedEvent(firstDate: value, isFristDateValid: true));
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-      controller: controller,
+      controller: _controller,
       onSaved: onSaved,
       readOnly: true,
       enabled: isEnable,

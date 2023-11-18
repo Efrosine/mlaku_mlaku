@@ -37,13 +37,13 @@ class CTextfiedSearch extends StatelessWidget {
           textInputAction: TextInputAction.next,
           validator: (value) {
             if (value!.isEmpty) {
-              ren(isFirstDes, context, value, false);
+              _getFirstDesValidate(isFirstDes, context, value, false);
               return 'Tidak boleh kosong';
             } else if (!options.map((e) => e.name).contains(value)) {
-              ren(isFirstDes, context, value, false);
+              _getFirstDesValidate(isFirstDes, context, value, false);
               return 'pilihan tidak valid';
             }
-            ren(isFirstDes, context, value, true);
+            _getFirstDesValidate(isFirstDes, context, value, true);
             return null;
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -62,17 +62,19 @@ class CTextfiedSearch extends StatelessWidget {
     );
   }
 
-  BuildContext getFirstValidate(BuildContext context) => context;
-  void ren(bool isFirstDes, BuildContext context, String? value, bool isValid) {
+  void _getFirstDesValidate(
+      bool isFirstDes, BuildContext context, String? value, bool isValid) {
     if (isFirstDes) {
       String? id = options
           .firstWhere(
             (element) => element.name!.contains(value ?? ''),
-            orElse: () => GeoModel(id: '0', name: 'error'),
+            orElse: () => const GeoModel(id: '0', name: 'error'),
           )
           .id;
 
-      context.read<BookingHotelsBloc>().add(BookingFirstDesChangedEvent(id, isValid));
+      context
+          .read<BookingHotelsBloc>()
+          .add(BookingFirstDesChangedEvent(idDes: id, isFirstDesValid: isValid));
     }
   }
 }

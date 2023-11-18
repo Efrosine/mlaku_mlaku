@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class GeoEntity extends Equatable {
-  final String? id, name;
+  const GeoEntity({required this.id, required this.name});
 
-  GeoEntity({required this.id, required this.name});
+  final String? id, name;
 
   @override
   List<Object?> get props => [

@@ -13,7 +13,7 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   BookingHotelsBloc(
     this._getProvUseCase,
     this._getCityUseCase,
-  ) : super(BookingHotelsState()) {
+  ) : super(const BookingHotelsState()) {
     on<BookingStartedEvent>(_onStartEvent);
     on<BookingFirstDesChangedEvent>(_onFirstDesChange);
     on<BookingFirstDateChangedEvent>(_onFirstDateChange);
@@ -27,12 +27,10 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
       BookingStartedEvent event, Emitter<BookingHotelsState> emit) async {
     final dataState = await _getProvUseCase();
     if (dataState is DataSuccess) {
-      print('data berhasil');
       emit(BookingInitialState(optionsProv: dataState.data!));
       emit(BookingStandbyState());
     } else {
-      print('data gagal');
-      emit(BookingInitialState(optionsProv: []));
+      emit(const BookingInitialState(optionsProv: []));
       emit(BookingStandbyState());
     }
   }
@@ -44,18 +42,14 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
     if (isFirstDesValid) {
       final dataState = await _getCityUseCase(params: idFirstDes);
       if (dataState is DataSuccess) {
-        print('data berhasilkota');
-        print('panjang kota ${dataState.data!.length}');
         emit(BookingDesChangedState(
             optionsCity: dataState.data!, isFirstDesValid: isFirstDesValid));
         emit(BookingStandbyState());
       } else {
-        print('data gagal1');
         emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
         emit(BookingStandbyState());
       }
     } else {
-      print('data gagal2');
       emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
       emit(BookingStandbyState());
     }
@@ -63,7 +57,6 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
 
   FutureOr<void> _onFirstDateChange(
       BookingFirstDateChangedEvent event, Emitter<BookingHotelsState> emit) {
-    print('change first date');
     DateTime firstDate = event.firstDate;
     emit(BookingDateChangedState(firstDate: firstDate));
   }
