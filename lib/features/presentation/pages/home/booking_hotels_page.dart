@@ -127,6 +127,7 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                           ),
                           SizedBox(height: 12),
                           CTextfieldDate(
+                            isFirstDate: true,
                             label: 'Arival',
                             startDate: DateTime.now(),
                             onSaved: (p0) => print(p0),
@@ -136,7 +137,7 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                           ),
                           BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
                             buildWhen: (previous, current) =>
-                                previous.firstDate != current.firstDate,
+                                current is BookingDateChangedState,
                             builder: (context, state) {
                               print(state.firstDate);
                               return CTextfieldDate(

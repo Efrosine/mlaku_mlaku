@@ -10,13 +10,14 @@ class CTextfieldDate extends StatelessWidget {
       required this.onSaved,
       required this.label,
       this.onChanged,
-      this.isEnable = true});
+      this.isEnable = true,
+      this.isFirstDate = false});
 
   final String label;
   final Function(String?) onSaved;
   final Function()? onChanged;
   final DateTime startDate;
-  final bool isEnable;
+  final bool isEnable, isFirstDate;
 
   final controller = TextEditingController();
 
@@ -32,7 +33,9 @@ class CTextfieldDate extends StatelessWidget {
       if (value != null) {
         print('ok');
         controller.text = value.toHumanString();
-        context.read<BookingHotelsBloc>().add(BookingFirstDateChangedEvent(value));
+        if (isFirstDate) {
+          context.read<BookingHotelsBloc>().add(BookingFirstDateChangedEvent(value));
+        }
       }
     });
   }
