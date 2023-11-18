@@ -16,27 +16,42 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   ) : super(BookingHotelsState()) {
     on<BookingStartedEvent>(_onStartEvent);
     on<BookingFirstDesChangedEvent>(_onFirstDesChange);
-    on<BookingFirstDateChangedEvent>(_onFirstChange);
+    on<BookingFirstDateChangedEvent>(_onFirstDateChange);
     on<BookingSubmittedEvent>(_onSubmitted);
   }
 
   final GetCityUseCase _getCityUseCase;
   final GetProvUseCase _getProvUseCase;
 
-  FutureOr<void> _onFirstChange(
-      BookingFirstDateChangedEvent event, Emitter<BookingHotelsState> emit) {
-    print('change first date');
-    DateTime firstDate = event.firstDate;
-
-    emit(state.copyWith(firstDate: firstDate));
+  FutureOr<void> _onStartEvent(
+      BookingStartedEvent event, Emitter<BookingHotelsState> emit) async {
+    final dataState = await _getProvUseCase();
+    if (dataState is DataSuccess) {
+      print('data berhasil');
+      emit(BookingInitialState(optionsProv: dataState.data!));
+      emit(BookingStandbyState());
+    } else {
+      print('data gagal');
+      emit(BookingInitialState(optionsProv: []));
+      emit(BookingStandbyState());
+    }
   }
 
   FutureOr<void> _onFirstDesChange(
       BookingFirstDesChangedEvent event, Emitter<BookingHotelsState> emit) {
-    String? firstDes = event.des;
-    bool? isDesValid = event.isDesValid;
+    String? idFirstDes = event.idDes;
+    bool? isFirstDesValid = event.isFirstDesValid;
+
     print('change first des');
-    emit(state.copyWith(firstDes: firstDes, isDesValid: isDesValid));
+    emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
+    emit(BookingStandbyState());
+  }
+
+  FutureOr<void> _onFirstDateChange(
+      BookingFirstDateChangedEvent event, Emitter<BookingHotelsState> emit) {
+    print('change first date');
+    DateTime firstDate = event.firstDate;
+    emit(BookingDateChangedState(firstDate: firstDate));
   }
 
   FutureOr<void> _onSubmitted(
@@ -45,19 +60,6 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
       print('valid');
     } else {
       print('invalid');
-    }
-  }
-
-  FutureOr<void> _onStartEvent(
-      BookingStartedEvent event, Emitter<BookingHotelsState> emit) async {
-    emit(state.copyWith(options: []));
-    final dataState = await _getProvUseCase();
-    if (dataState is DataSuccess) {
-      print('data berhasil');
-      emit(state.copyWith(options: dataState.data));
-    } else {
-      print('data gagal');
-      emit(state.copyWith(options: []));
     }
   }
 }

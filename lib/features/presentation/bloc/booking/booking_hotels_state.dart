@@ -2,50 +2,54 @@ part of 'booking_hotels_bloc.dart';
 
 final class BookingHotelsState extends Equatable {
   const BookingHotelsState(
-      {this.options,
-      this.isDesValid = false,
-      this.firstDes = '',
+      {this.optionsProv,
+      this.optionsCity,
+      this.isFirstDesValid = false,
+      this.idFirstDes = '',
       this.isValid = false,
       this.firstDate});
   final DateTime? firstDate;
-  final String firstDes;
-  final bool isDesValid;
+  final String idFirstDes;
+  final bool isFirstDesValid;
   final bool isValid;
-  final List<GeoEntity>? options;
+  final List<GeoEntity>? optionsProv, optionsCity;
 
   BookingHotelsState copyWith({
     List<GeoEntity>? options,
     DateTime? firstDate,
     String? firstDes,
-    bool? isDesValid,
+    bool? isFirstDesValid,
     bool? isValid,
   }) {
     return BookingHotelsState(
-      options: options ?? this.options,
+      optionsProv: options ?? this.optionsProv,
       firstDate: firstDate ?? this.firstDate,
       isValid: isValid ?? this.isValid,
-      firstDes: firstDes ?? this.firstDes,
-      isDesValid: isDesValid ?? this.isDesValid,
+      idFirstDes: firstDes ?? this.idFirstDes,
+      isFirstDesValid: isFirstDesValid ?? this.isFirstDesValid,
     );
   }
 
   @override
   List<Object> get props =>
-      [isDesValid, isValid, firstDes, firstDate ?? '', options ?? {}];
+      [isFirstDesValid, isValid, idFirstDes, firstDate ?? '', optionsProv ?? {}];
 }
 
 final class BookingInitialState extends BookingHotelsState {
-  List<GeoEntity> options;
-  BookingInitialState({required this.options});
+  final List<GeoEntity> optionsProv;
+  const BookingInitialState({required this.optionsProv});
 }
 
 final class BookingDesChangedState extends BookingHotelsState {
-  final String firstDes;
-  final bool isDesValid;
-  const BookingDesChangedState({required this.firstDes, required this.isDesValid});
+  final List<GeoEntity> optionsCity;
+  final bool isFirstDesValid;
+  const BookingDesChangedState(
+      {required this.optionsCity, required this.isFirstDesValid});
 }
 
 final class BookingDateChangedState extends BookingHotelsState {
-  final DateTime firstDate;
+  final DateTime? firstDate;
   const BookingDateChangedState({required this.firstDate});
 }
+
+final class BookingStandbyState extends BookingHotelsState {}

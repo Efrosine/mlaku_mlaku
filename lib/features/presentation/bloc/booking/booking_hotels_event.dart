@@ -10,13 +10,13 @@ sealed class BookingHotelsEvent extends Equatable {
 final class BookingStartedEvent extends BookingHotelsEvent {}
 
 final class BookingFirstDesChangedEvent extends BookingHotelsEvent {
-  final String des;
-  final bool isDesValid;
+  final String? idDes;
+  final bool isFirstDesValid;
 
-  BookingFirstDesChangedEvent(this.des, this.isDesValid);
+  BookingFirstDesChangedEvent(this.idDes, this.isFirstDesValid);
 
   @override
-  List<Object> get props => [des, isDesValid];
+  List<Object> get props => [idDes ?? '', isFirstDesValid];
 }
 
 final class BookingFirstDateChangedEvent extends BookingHotelsEvent {

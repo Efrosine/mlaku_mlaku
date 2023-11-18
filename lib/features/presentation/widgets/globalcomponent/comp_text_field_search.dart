@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mlaku_mlaku/features/data/model/geo_model.dart';
 import 'package:mlaku_mlaku/features/domain/entities/geo_ent.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bloc.dart';
 
@@ -10,13 +11,14 @@ class CTextfiedSearch extends StatelessWidget {
       required this.label,
       required this.icons,
       required this.onSaved,
-      this.isEnable = true});
+      this.isEnable = true,
+      this.isFirstDes = false});
 
   final IconData icons;
   final String label;
   final Function(String?) onSaved;
   final List<GeoEntity> options;
-  final bool isEnable;
+  final bool isEnable, isFirstDes;
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +37,13 @@ class CTextfiedSearch extends StatelessWidget {
           textInputAction: TextInputAction.next,
           validator: (value) {
             if (value!.isEmpty) {
-              context
-                  .read<BookingHotelsBloc>()
-                  .add(BookingFirstDesChangedEvent(value, false));
+              ren(isFirstDes, context, value, false);
               return 'Tidak boleh kosong';
             } else if (!options.map((e) => e.name).contains(value)) {
-              context
-                  .read<BookingHotelsBloc>()
-                  .add(BookingFirstDesChangedEvent(value, false));
+              ren(isFirstDes, context, value, false);
               return 'pilihan tidak valid';
             }
-            context
-                .read<BookingHotelsBloc>()
-                .add(BookingFirstDesChangedEvent(value, true));
+            ren(isFirstDes, context, value, true);
             return null;
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -64,5 +60,19 @@ class CTextfiedSearch extends StatelessWidget {
         );
       },
     );
+  }
+
+  BuildContext getFirstValidate(BuildContext context) => context;
+  void ren(bool isFirstDes, BuildContext context, String? value, bool isValid) {
+    if (isFirstDes) {
+      String? id = options
+          .firstWhere(
+            (element) => element.name!.contains(value ?? ''),
+            orElse: () => GeoModel(id: '0', name: 'error'),
+          )
+          .id;
+
+      context.read<BookingHotelsBloc>().add(BookingFirstDesChangedEvent(id, isValid));
+    }
   }
 }

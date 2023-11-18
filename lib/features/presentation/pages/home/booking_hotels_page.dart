@@ -90,24 +90,26 @@ class _BookingHotelsPageState extends State<BookingHotelsPage> {
                             style: TextStyle(fontSize: 16),
                           ),
                           SizedBox(height: 12),
+                          //prov
                           BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
+                              buildWhen: (previous, current) =>
+                                  current is BookingInitialState,
                               builder: (context, state) {
-                            return CTextfiedSearch(
-                                options: state.options ?? [],
-                                label: 'Province',
-                                icons: Icons.home_work_outlined,
-                                onSaved: print);
-                          }),
+                                return CTextfiedSearch(
+                                    isFirstDes: true,
+                                    options: state.optionsProv ?? [],
+                                    label: 'Province',
+                                    icons: Icons.home_work_outlined,
+                                    onSaved: print);
+                              }),
                           SizedBox(height: 16),
+                          //city
                           BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                            buildWhen: (previous, current) {
-                              var bol = previous.firstDes != current.firstDes;
-
-                              return bol;
-                            },
+                            buildWhen: (previous, current) =>
+                                current is BookingDesChangedState,
                             builder: (context, state) {
                               return CTextfiedSearch(
-                                isEnable: state.isDesValid,
+                                isEnable: state.isFirstDesValid,
                                 options: [],
                                 label: 'City',
                                 icons: Icons.location_city,
