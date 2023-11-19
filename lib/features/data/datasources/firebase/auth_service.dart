@@ -1,10 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mlaku_mlaku/features/data/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  final FirebaseAuth _auth;
+  AuthService(this._auth, this._prefs);
 
-  AuthService(this._auth);
+  final FirebaseAuth _auth;
+  final SharedPreferences _prefs;
+
+  Future<void> authCheck() async {
+    _auth.authStateChanges().listen((event) {
+      if (event == null) {
+        _prefs.clear();
+      } else {
+        _prefs.setString('uid', event.uid);
+      }
+    });
+  }
+
+  String? getUserId() {
+    return _prefs.getString('uid');
+  }
 
   Future<UserCredential> signIn(UserModel model) async {
     return await _auth.signInWithEmailAndPassword(

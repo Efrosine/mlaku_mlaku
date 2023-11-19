@@ -10,10 +10,14 @@ sealed class AuthBlocEvent extends Equatable {
 
 class AuthBlocEventChangeAuth extends AuthBlocEvent {}
 
-class AuthBlocEventSignIn extends AuthBlocEvent {
-  AuthBlocEventSignIn(UserEntity user) : super(user: user);
+class AuthBlocEventLogIn extends AuthBlocEvent {
+  AuthBlocEventLogIn(UserEntity user) : super(user: user);
 }
 
 class AuthBlocEventSignUp extends AuthBlocEvent {
   AuthBlocEventSignUp(UserEntity user) : super(user: user);
 }
+
+class AuthBlocEventLogout extends AuthBlocEvent {}
+
+class AuthBlocEventInit extends AuthBlocEvent {}

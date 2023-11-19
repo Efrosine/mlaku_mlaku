@@ -1,30 +1,27 @@
 import 'package:mlaku_mlaku/features/domain/entities/user_ent.dart';
 
 class UserModel extends UserEntity {
-  UserModel({
-    String? name,
+  const UserModel({
+    String? id,
     String? email,
     String? password,
-    String? phone,
-    String? address,
-    String? image,
+    String? name,
+    String? photo,
   }) : super(
-          name: name,
+          id: id,
           email: email,
           password: password,
-          phone: phone,
-          address: address,
-          image: image,
+          name: name,
+          photo: photo,
         );
 
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
-      name: entity.name,
+      id: entity.id,
       email: entity.email,
       password: entity.password,
-      phone: entity.phone,
-      address: entity.address,
-      image: entity.image,
+      name: entity.name,
+      photo: entity.photo,
     );
   }
 }

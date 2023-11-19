@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/auth/auth_bloc_bloc.dart';
 
 import '../../domain/entities/user_ent.dart';
-import 'globalcomponent/text_field_comp.dart';
+import 'globalcomponent/comp_text_field.dart';
 
 class AuthWidget extends StatelessWidget {
   final bool isLogin;
@@ -31,13 +31,13 @@ class AuthWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 32),
-              CTextField(
+              CTextFieldAuth(
                 controller: emailController,
                 label: 'Email',
                 isPassword: false,
               ),
               SizedBox(height: 32),
-              CTextField(
+              CTextFieldAuth(
                 controller: passwordController,
                 label: 'Passworddddd',
                 isPassword: true,
@@ -63,7 +63,7 @@ class AuthWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (isLogin) {
-                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventSignIn(
+                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventLogIn(
                     UserEntity(
                       email: emailController.text,
                       password: passwordController.text,
