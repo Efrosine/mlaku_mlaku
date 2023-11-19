@@ -42,7 +42,7 @@ class ReqBookingEntity extends Equatable {
       } else if (city!.startsWith('KOTA') || city!.startsWith('KAB.')) {
         return '${city!.substring(5)} Indonesia';
       } else {
-        return 'Indonesia';
+        return '${city!} Indonesia';
       }
     }
     return 'Indonesia';
@@ -55,7 +55,8 @@ class ReqBookingEntity extends Equatable {
       } else if (province!.startsWith('DAERAH ISTIMEWA')) {
         return '${province!.substring(16)} Indonesia';
       }
-      return 'Indonesia';
+      return '${province!} Indonesia';
     }
+    return 'Indonesia';
   }
 }

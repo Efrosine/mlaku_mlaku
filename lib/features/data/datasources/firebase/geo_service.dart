@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 
+import '../../../../core/const/api_header.dart';
+import '../../../../core/const/string.dart';
+
 class GeoService {
   GeoService(Dio dio) : _dio = dio;
 
@@ -7,22 +10,21 @@ class GeoService {
 
   Future<Response> getProv() async {
     return await _dio.get(
-      'https://api.goapi.io/regional/provinsi',
+      geoBaseUrl + geoProvEndPoint,
       options: Options(
-        headers: {
-          'X-API-KEY': '2f428b6a-d208-5689-1ea1-644f92e4',
-        },
+        headers: geoHeader,
       ),
     );
   }
 
   Future<Response> getCity(String provId) async {
     return await _dio.get(
-      'https://api.goapi.io/regional/kota?provinsi_id=$provId',
+      geoBaseUrl + geoCityEndPoint,
+      queryParameters: {
+        'provinsi_id': provId,
+      },
       options: Options(
-        headers: {
-          'X-API-KEY': '2f428b6a-d208-5689-1ea1-644f92e4',
-        },
+        headers: geoHeader,
       ),
     );
   }
