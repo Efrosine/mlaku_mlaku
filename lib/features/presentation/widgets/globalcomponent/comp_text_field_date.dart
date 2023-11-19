@@ -14,7 +14,7 @@ class CTextfieldDate extends StatelessWidget {
       this.isFirstDate = false});
 
   final String label;
-  final Function(String?) onSaved;
+  final Function(String? value) onSaved;
   final Function()? onChanged;
   final DateTime startDate;
   final bool isEnable, isFirstDate;
@@ -50,6 +50,13 @@ class CTextfieldDate extends StatelessWidget {
       onSaved: onSaved,
       readOnly: true,
       enabled: isEnable,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Tidak boleh kosong';
+        }
+
+        return null;
+      },
       onTapOutside: (event) => _focusNode.unfocus(),
       onTap: () => _selectDate(context),
       decoration: InputDecoration(

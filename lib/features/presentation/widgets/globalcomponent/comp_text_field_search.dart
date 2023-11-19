@@ -16,7 +16,7 @@ class CTextfiedSearch extends StatelessWidget {
 
   final IconData icons;
   final String label;
-  final Function(String?) onSaved;
+  final Function(String? value) onSaved;
   final List<GeoEntity> options;
   final bool isEnable, isFirstDes;
 
@@ -46,7 +46,6 @@ class CTextfiedSearch extends StatelessWidget {
             _getFirstDesValidate(isFirstDes, context, value, true);
             return null;
           },
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
             prefixIcon: Icon(icons),
             suffixIcon: Icon(Icons.arrow_drop_down_rounded),
