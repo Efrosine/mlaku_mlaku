@@ -10,12 +10,30 @@ class ReqBookingEntity extends Equatable {
     this.departureDate,
   );
 
+  ReqBookingEntity.empty()
+      : arrivalDate = null,
+        departureDate = null,
+        destId = null,
+        city = null,
+        province = null,
+        searchType = null;
+
   String? arrivalDate;
+  String? city;
   String? departureDate;
   String? destId;
-  String? city;
   String? province;
   String? searchType;
+
+  @override
+  List<Object?> get props => [
+        arrivalDate,
+        departureDate,
+        destId,
+        city,
+        province,
+        searchType,
+      ];
 
   String? get queryByCity {
     if (city != null) {
@@ -40,22 +58,4 @@ class ReqBookingEntity extends Equatable {
       return 'Indonesia';
     }
   }
-
-  @override
-  List<Object?> get props => [
-        arrivalDate,
-        departureDate,
-        destId,
-        city,
-        province,
-        searchType,
-      ];
-
-  ReqBookingEntity.empty()
-      : arrivalDate = null,
-        departureDate = null,
-        destId = null,
-        city = null,
-        province = null,
-        searchType = null;
 }
