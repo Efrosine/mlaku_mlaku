@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mlaku_mlaku/features/domain/entities/req_booking_ent.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bloc.dart';
 
 import '../../../../core/const/list.dart';
@@ -33,6 +34,7 @@ class BookingPageContent extends StatelessWidget {
   });
 
   final _formKey = GlobalKey<FormState>();
+  final _data = ReqBookingEntity.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class BookingPageContent extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +68,7 @@ class BookingPageContent extends StatelessWidget {
                         isFirstDes: true,
                         options: state.optionsProv ?? [],
                         icons: Icons.home_work_outlined,
-                        onSaved: print,
+                        onSaved: (value) => _data.province = value,
                       );
                     },
                   ),
@@ -79,7 +82,7 @@ class BookingPageContent extends StatelessWidget {
                         isEnable: state.isFirstDesValid,
                         options: state.optionsCity ?? [],
                         icons: Icons.location_city,
-                        onSaved: print,
+                        onSaved: (value) => _data.city = value,
                       );
                     },
                   ),
@@ -96,7 +99,7 @@ class BookingPageContent extends StatelessWidget {
                     label: 'Arival',
                     isFirstDate: true,
                     startDate: DateTime.now(),
-                    onSaved: print,
+                    onSaved: (value) => _data.arrivalDate = value,
                   ),
                   SizedBox(height: 16),
                   //second date
@@ -107,7 +110,7 @@ class BookingPageContent extends StatelessWidget {
                         label: 'Depature',
                         isEnable: state.firstDate == null ? false : true,
                         startDate: state.firstDate ?? DateTime.now(),
-                        onSaved: print,
+                        onSaved: (value) => _data.departureDate = value,
                       );
                     },
                   ),
@@ -121,6 +124,9 @@ class BookingPageContent extends StatelessWidget {
                         var state = _formKey.currentState!;
                         if (state.validate()) {
                           state.save();
+                          print(_data);
+                          print(_data.queryByCity);
+                          print(_data.queryByProvince);
                         }
                         // Navigator.pushNamed(context, '/LHPage', arguments: reqBook);
                       },
