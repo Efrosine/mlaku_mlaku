@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mlaku_mlaku/core/datastate/auth_exception.dart';
 import 'package:mlaku_mlaku/core/datastate/datastate.dart';
+import 'package:mlaku_mlaku/features/data/datasources/firebase/cloud_service.dart';
 import 'package:mlaku_mlaku/features/data/model/user_model.dart';
 import 'package:mlaku_mlaku/features/domain/entities/user_ent.dart';
 import 'package:mlaku_mlaku/features/domain/repositories/auth_repo.dart';
@@ -10,8 +11,9 @@ import '../datasources/firebase/auth_service.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final AuthService _service;
+  final CloudService _cloudService;
 
-  AuthRepoImpl(this._service);
+  AuthRepoImpl(this._service, this._cloudService);
 
   @override
   Future<DataState<void, LogInEnPException>> logIn(UserEntity user) async {
@@ -55,5 +57,10 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<bool> loginCheck() {
     return _service.getUserId() == null ? Future.value(false) : Future.value(true);
+  }
+  
+  @override
+  Future<void> entryDataUser(UserEntity user) {
+   return _cloudService.entryDataUser(UserModel.fromEntity(user));
   }
 }

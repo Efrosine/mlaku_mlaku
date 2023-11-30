@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CTextFieldAuth extends StatefulWidget {
+class TextFieldAuth extends StatefulWidget {
   final TextEditingController controller;
   final String label;
   final bool isPassword;
 
-  const CTextFieldAuth({
+  const TextFieldAuth({
     super.key,
     required this.controller,
     required this.label,
@@ -13,10 +13,10 @@ class CTextFieldAuth extends StatefulWidget {
   });
 
   @override
-  State<CTextFieldAuth> createState() => _CTextFieldAuthState();
+  State<TextFieldAuth> createState() => _TextFieldAuthState();
 }
 
-class _CTextFieldAuthState extends State<CTextFieldAuth> {
+class _TextFieldAuthState extends State<TextFieldAuth> {
   bool isInvisible = false;
   @override
   void initState() {

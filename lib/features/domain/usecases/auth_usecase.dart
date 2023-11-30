@@ -58,3 +58,14 @@ class LoginCheckUseCase extends UseCase<bool, void> {
     return _repo.loginCheck();
   }
 }
+
+class EntryDataUseCase extends UseCase<void, UserEntity> {
+  final AuthRepo _repo;
+
+  EntryDataUseCase(this._repo);
+
+  @override
+  Future<void> call({UserEntity? params}) {
+    return _repo.entryDataUser(params!);
+  }
+}

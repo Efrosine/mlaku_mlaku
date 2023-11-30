@@ -5,26 +5,24 @@ import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bl
 
 import '../../../../core/const/list.dart';
 import '../../../../injection_container.dart';
+import '../../bloc/geo/geo_bloc.dart';
 import '../../widgets/globalcomponent/comp_custom_carousel.dart';
-import '../../widgets/globalcomponent/comp_text_field_date.dart';
-import '../../widgets/globalcomponent/comp_text_field_search.dart';
+import '../../widgets/globalcomponent/comp_textfield_datepicker.dart';
+import '../../widgets/globalcomponent/comp_textfield_autocomplete.dart';
 
-class BookingHotelsPage extends StatefulWidget {
+class BookingHotelsPage extends StatelessWidget {
   const BookingHotelsPage({super.key});
 
   @override
-  State<BookingHotelsPage> createState() => _BookingHotelsPageState();
-}
-
-class _BookingHotelsPageState extends State<BookingHotelsPage> {
-  @override
   Widget build(BuildContext context) {
-    return BlocProvider<BookingHotelsBloc>(
-      create: (context) => sl()..add(BookingStartedEvent()),
-      child: Scaffold(
-        body: BookingPageContent(),
+    return MultiBlocProvider(providers: [
+      BlocProvider<BookingHotelsBloc>(
+        create: (context) => sl(),
       ),
-    );
+      BlocProvider<GeoBloc>(
+        create: (context) => sl()..add(GeoStartedEvent()),
+      ),
+    ], child: Scaffold(body: BookingPageContent()));
   }
 }
 
@@ -60,10 +58,10 @@ class BookingPageContent extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   //prov
-                  BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                    buildWhen: (previous, current) => current is BookingInitialState,
+                  BlocBuilder<GeoBloc, GeoState>(
+                    buildWhen: (previous, current) => current is GeoInitialState,
                     builder: (context, state) {
-                      return CTextfiedSearch(
+                      return TextfieldAutocomplete(
                         label: 'Province',
                         isFirstDes: true,
                         options: state.optionsProv ?? [],
@@ -74,12 +72,12 @@ class BookingPageContent extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   //city
-                  BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                    buildWhen: (previous, current) => current is BookingDesChangedState,
+                  BlocBuilder<GeoBloc, GeoState>(
+                    buildWhen: (previous, current) => current is GeoProvChangedState,
                     builder: (context, state) {
-                      return CTextfiedSearch(
+                      return TextfieldAutocomplete(
                         label: 'City',
-                        isEnable: state.isFirstDesValid,
+                        isEnable: state.isProvValid,
                         options: state.optionsCity ?? [],
                         icons: Icons.location_city,
                         onSaved: (value) => _data.city = value,
@@ -95,7 +93,7 @@ class BookingPageContent extends StatelessWidget {
                   ),
                   SizedBox(height: 12),
                   //first date
-                  CTextfieldDate(
+                  TextfieldDatePicker(
                     label: 'Arival',
                     isFirstDate: true,
                     startDate: DateTime.now(),
@@ -106,7 +104,7 @@ class BookingPageContent extends StatelessWidget {
                   BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
                     buildWhen: (previous, current) => current is BookingDateChangedState,
                     builder: (context, state) {
-                      return CTextfieldDate(
+                      return TextfieldDatePicker(
                         label: 'Depature',
                         isEnable: state.firstDate == null ? false : true,
                         startDate: state.firstDate ?? DateTime.now(),
@@ -125,8 +123,6 @@ class BookingPageContent extends StatelessWidget {
                         if (state.validate()) {
                           state.save();
                           print(_data);
-                          print(_data.queryByCity);
-                          print(_data.queryByProvince);
                         }
                         // Navigator.pushNamed(context, '/LHPage', arguments: reqBook);
                       },

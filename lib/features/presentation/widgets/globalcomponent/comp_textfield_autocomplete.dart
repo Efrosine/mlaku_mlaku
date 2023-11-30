@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlaku_mlaku/features/data/model/geo_model.dart';
 import 'package:mlaku_mlaku/features/domain/entities/geo_ent.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bloc.dart';
+import 'package:mlaku_mlaku/features/presentation/bloc/geo/geo_bloc.dart';
 
-class CTextfiedSearch extends StatelessWidget {
-  const CTextfiedSearch(
+class TextfieldAutocomplete extends StatelessWidget {
+  const TextfieldAutocomplete(
       {super.key,
       required this.options,
       required this.label,
@@ -71,9 +72,7 @@ class CTextfiedSearch extends StatelessWidget {
           )
           .id;
 
-      context
-          .read<BookingHotelsBloc>()
-          .add(BookingFirstDesChangedEvent(idDes: id, isFirstDesValid: isValid));
+      context.read<GeoBloc>().add(GeoProvChangedEvent(idProv: id, isProvValid: isValid));
     }
   }
 }

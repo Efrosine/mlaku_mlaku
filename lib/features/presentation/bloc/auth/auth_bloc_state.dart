@@ -9,7 +9,7 @@ sealed class AuthBlocState extends Equatable {
   });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [user ?? '', exception ?? ''];
 }
 
 sealed class AuthBlocActionState extends AuthBlocState {
@@ -22,6 +22,10 @@ final class AuthBlocInitial extends AuthBlocState {}
 class AuthBlocStateSignIn extends AuthBlocState {}
 
 class AuthBlocStateSignUp extends AuthBlocState {}
+
+class AuthBlocUserEntryDataState extends AuthBlocState {
+  const AuthBlocUserEntryDataState({required UserEntity user}) : super(user: user);
+}
 
 class AuthBlocStateDone extends AuthBlocActionState {
   const AuthBlocStateDone();

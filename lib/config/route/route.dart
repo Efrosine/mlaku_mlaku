@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mlaku_mlaku/features/presentation/pages/home/booking_hotels_page.dart';
 
-import '../../features/presentation/pages/auth_page.dart';
+import '../../features/presentation/pages/auth/auth_page.dart';
 import '../../features/presentation/pages/nav_bar.dart';
 
 class AppRoute {
