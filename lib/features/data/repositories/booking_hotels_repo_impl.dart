@@ -11,7 +11,8 @@ class BookingHotelsRepoImpl extends BookingHotelsRepo {
 
   BookingHotelsRepoImpl(this._hotelsService);
   @override
-  Future<DataState<HotelsEntity, void>> getDetailHotels(HotelsEntity hotelsEntity) {
+  Future<DataState<HotelsEntity, void>> getDetailHotels(
+      HotelsEntity hotelsEntity) {
     throw UnimplementedError();
   }
 
@@ -19,9 +20,9 @@ class BookingHotelsRepoImpl extends BookingHotelsRepo {
   Future<DataState<List<HotelsEntity>, void>> getListHotels(
       ReqBookingEntity regBookingEnt) async {
     try {
-      final respon =
-          await _hotelsService.getListHotels(ReqBookingModel.fromEntity(regBookingEnt));
-      final data = respon.data as List;
+      final respon = await _hotelsService
+          .getListHotels(ReqBookingModel.fromEntity(regBookingEnt));
+      final data = respon.data['data']['hotels'] as List;
       final result = data.map((e) => HotelsModel.fromJson(e)).toList();
       return DataSuccess(result);
     } catch (e) {

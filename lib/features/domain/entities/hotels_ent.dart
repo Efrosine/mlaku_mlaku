@@ -14,11 +14,11 @@ class HotelsEntity extends Equatable {
 
   final String? address;
   final String? description;
-  final String? id;
+  final int? id;
   final String? image;
   final String? name;
-  final int? price;
-  final int? rating;
+  final Map<String, dynamic>? price;
+  final double? rating;
   final int? stars;
 
   @override

@@ -10,23 +10,31 @@ class BookingHotelsService {
   final Dio _dio;
 
   Future<Response> getListHotels(ReqBookingModel reqModel) async {
-    var destination = await _dio.get(
-      bookingBaseUrl + hotelsDesEndPoint,
+    final response = await _dio.get(
+      'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination',
       queryParameters: {'query': reqModel.queryByCity},
-      options: Options(headers: bookingHeader),
+      options: Options(headers: {
+        'X-RapidAPI-Key': '2e7aa97237msh89ce8f771546c47p1fe7acjsn105dde33f0df',
+        'X-RapidAPI-Host': 'booking-com15.p.rapidapi.com',
+      }),
     );
-    String destId = await destination.data['data']['dest_id'];
-    String searchType = await destination.data['data']['search_type'];
+    final data = response.data['data'][0];
+
+    String destId = data['dest_id'];
+    String destType = data['dest_type'];
 
     return await _dio.get(
-      bookingBaseUrl + hotelsListEndPoint,
+      'https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels',
       queryParameters: {
         'dest_id': destId,
-        'search_type': searchType,
+        'search_type': destType,
         'arrival_date': reqModel.arrivalDate,
         'departure_date': reqModel.departureDate,
       },
-      options: Options(headers: bookingHeader),
+      options: Options(headers: {
+        'X-RapidAPI-Key': '2e7aa97237msh89ce8f771546c47p1fe7acjsn105dde33f0df',
+        'X-RapidAPI-Host': 'booking-com15.p.rapidapi.com',
+      }),
     );
   }
 }

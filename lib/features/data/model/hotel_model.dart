@@ -26,15 +26,17 @@ class HotelsModel extends HotelsEntity {
   }
 
   factory HotelsModel.fromJson(Map<String, dynamic> json) {
-    final data = json['data']['hotels']['property'];
+    final data = json['property'];
     return HotelsModel(
       address: data['address'],
       description: data['description'],
-      image: data['photoUrls'],
+      image: data['photoUrls'][0],
       id: data['id'],
       name: data['name'],
-      price: data['priceBreakdown']['grossPrice']['value'],
-      rating: data['reviewScore'],
+      price: data['priceBreakdown']['grossPrice'],
+      rating: data['reviewScore'].runtimeType == double
+          ? data['reviewScore']
+          : data['reviewScore'].toDouble(),
       stars: data['propertyClass'],
     );
   }
