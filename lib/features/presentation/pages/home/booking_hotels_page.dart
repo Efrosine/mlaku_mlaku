@@ -15,14 +15,23 @@ class BookingHotelsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<BookingHotelsBloc>(
-        create: (context) => sl(),
-      ),
-      BlocProvider<GeoBloc>(
-        create: (context) => sl()..add(GeoStartedEvent()),
-      ),
-    ], child: Scaffold(body: BookingPageContent()));
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<BookingHotelsBloc>(
+            create: (context) => sl(),
+          ),
+          BlocProvider<GeoBloc>(
+            create: (context) => sl()..add(GeoStartedEvent()),
+          ),
+        ],
+        child: BlocListener(
+            listener: (context, state) {
+              if (state is BookingNavigateToListState) {
+                Navigator.pushNamed(context, '/LHPage');
+              }
+            },
+            child: Scaffold(body: BookingPageContent())));
+    // ], child: Scaffold(body: BookingPageContent()));
   }
 }
 
@@ -59,7 +68,8 @@ class BookingPageContent extends StatelessWidget {
                   SizedBox(height: 12),
                   //prov
                   BlocBuilder<GeoBloc, GeoState>(
-                    buildWhen: (previous, current) => current is GeoInitialState,
+                    buildWhen: (previous, current) =>
+                        current is GeoInitialState,
                     builder: (context, state) {
                       return TextfieldAutocomplete(
                         label: 'Province',
@@ -73,7 +83,8 @@ class BookingPageContent extends StatelessWidget {
                   SizedBox(height: 16),
                   //city
                   BlocBuilder<GeoBloc, GeoState>(
-                    buildWhen: (previous, current) => current is GeoProvChangedState,
+                    buildWhen: (previous, current) =>
+                        current is GeoProvChangedState,
                     builder: (context, state) {
                       return TextfieldAutocomplete(
                         label: 'City',
@@ -102,7 +113,8 @@ class BookingPageContent extends StatelessWidget {
                   SizedBox(height: 16),
                   //second date
                   BlocBuilder<BookingHotelsBloc, BookingHotelsState>(
-                    buildWhen: (previous, current) => current is BookingDateChangedState,
+                    buildWhen: (previous, current) =>
+                        current is BookingDateChangedState,
                     builder: (context, state) {
                       return TextfieldDatePicker(
                         label: 'Depature',
@@ -122,7 +134,9 @@ class BookingPageContent extends StatelessWidget {
                         var state = _formKey.currentState!;
                         if (state.validate()) {
                           state.save();
-                          print(_data);
+                          context.read<BookingHotelsBloc>().add(
+                              BookingFormSubmittedEvent(
+                                  reqBookingEntity: _data));
                         }
                         // Navigator.pushNamed(context, '/LHPage', arguments: reqBook);
                       },

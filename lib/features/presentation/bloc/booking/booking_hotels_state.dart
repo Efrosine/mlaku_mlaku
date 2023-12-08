@@ -5,10 +5,12 @@ final class BookingHotelsState extends Equatable {
     this.firstDate,
     this.isFristDateValid = false,
     this.isValid = false,
+    this.hotelsEntity,
   });
   final DateTime? firstDate;
 
   final bool isFristDateValid, isValid;
+  final List<HotelsEntity>? hotelsEntity;
 
   @override
   List<Object> get props => [
@@ -23,7 +25,11 @@ final class BookingDateChangedState extends BookingHotelsState {
 
 final class BookingStandbyState extends BookingHotelsState {}
 
-final class BookingSearchedState extends BookingHotelsState {}
+final class BookingNavigateToListState extends BookingHotelsState {}
+
+final class BookingSearchedState extends BookingHotelsState {
+  const BookingSearchedState({required super.hotelsEntity});
+}
 
 final class BookingDetailState extends BookingHotelsState {}
 

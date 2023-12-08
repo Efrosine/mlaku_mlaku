@@ -5,9 +5,9 @@ import 'package:mlaku_mlaku/features/domain/repositories/booking_hotels_repo.dar
 
 import '../entities/req_booking_ent.dart';
 
-class GetListHotels
+class GetListHotelsUseCase
     extends UseCase<DataState<List<HotelsEntity>, void>, ReqBookingEntity> {
-  GetListHotels({required BookingHotelsRepo repo}) : _repo = repo;
+  GetListHotelsUseCase({required BookingHotelsRepo repo}) : _repo = repo;
 
   final BookingHotelsRepo _repo;
 
@@ -17,8 +17,9 @@ class GetListHotels
   }
 }
 
-class GetDetailHotels extends UseCase<DataState<HotelsEntity, void>, HotelsEntity> {
-  GetDetailHotels({required BookingHotelsRepo repo}) : _repo = repo;
+class GetDetailHotelsUseCase
+    extends UseCase<DataState<HotelsEntity, void>, HotelsEntity> {
+  GetDetailHotelsUseCase({required BookingHotelsRepo repo}) : _repo = repo;
 
   final BookingHotelsRepo _repo;
 

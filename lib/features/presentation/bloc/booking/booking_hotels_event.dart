@@ -19,15 +19,11 @@ final class BookingFirstDateChangedEvent extends BookingHotelsEvent {
 }
 
 final class BookingFormSubmittedEvent extends BookingHotelsEvent {
-  const BookingFormSubmittedEvent();
-}
+  final ReqBookingEntity reqBookingEntity;
 
-final class BookingSearchEvent extends BookingHotelsEvent {
-  const BookingSearchEvent();
+  const BookingFormSubmittedEvent({required this.reqBookingEntity});
 }
 
 final class BookingClickedItemEvent extends BookingHotelsEvent {}
-
-final class BookingGetDetailEvent extends BookingHotelsEvent {}
 
 final class BookingReservationEvent extends BookingHotelsEvent {}
