@@ -5,6 +5,7 @@ import 'package:mlaku_mlaku/features/domain/entities/user_ent.dart';
 import 'package:mlaku_mlaku/features/domain/repositories/auth_repo.dart';
 
 class SignUpUseCase extends UseCase<DataState<void, SignUpEnPException>, UserEntity> {
+
   final AuthRepo _repo;
 
   SignUpUseCase(this._repo);
@@ -56,5 +57,18 @@ class LoginCheckUseCase extends UseCase<bool, void> {
   @override
   Future<bool> call({void params}) {
     return _repo.loginCheck();
+  }
+}
+
+class EntryDataUseCase extends UseCase<void, UserEntity> {
+  final AuthRepo _repo;
+
+  EntryDataUseCase(this._repo);
+
+  @override
+  Future<void> call({UserEntity? params}) {
+    return _repo.entryDataUser(params!);
+
+
   }
 }

@@ -1,14 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class ReqBookingEntity extends Equatable {
-  ReqBookingEntity(
+
+  ReqBookingEntity({
+
     this.city,
     this.province,
     this.destId,
     this.searchType,
     this.arrivalDate,
     this.departureDate,
-  );
+
+  });
+
 
   ReqBookingEntity.empty()
       : arrivalDate = null,
@@ -35,28 +39,4 @@ class ReqBookingEntity extends Equatable {
         searchType,
       ];
 
-  String? get queryByCity {
-    if (city != null) {
-      if (city!.startsWith('KOTA ADM.') || city!.startsWith('KAB. ADM.')) {
-        return '${city!.substring(10)} Indonesia';
-      } else if (city!.startsWith('KOTA') || city!.startsWith('KAB.')) {
-        return '${city!.substring(5)} Indonesia';
-      } else {
-        return '${city!} Indonesia';
-      }
-    }
-    return 'Indonesia';
-  }
-
-  String? get queryByProvince {
-    if (province != null) {
-      if (province!.startsWith('DKI')) {
-        return '${province!.substring(4)} Indonesia';
-      } else if (province!.startsWith('DAERAH ISTIMEWA')) {
-        return '${province!.substring(16)} Indonesia';
-      }
-      return '${province!} Indonesia';
-    }
-    return 'Indonesia';
-  }
 }

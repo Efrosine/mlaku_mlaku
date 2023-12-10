@@ -2,58 +2,35 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mlaku_mlaku/core/datastate/datastate.dart';
-import 'package:mlaku_mlaku/features/domain/entities/geo_ent.dart';
-import 'package:mlaku_mlaku/features/domain/usecases/geo_usecase.dart';
+import 'package:mlaku_mlaku/features/domain/entities/hotels_ent.dart';
+import 'package:mlaku_mlaku/features/domain/entities/req_booking_ent.dart';
+import 'package:mlaku_mlaku/features/domain/usecases/booking_hotels_usecase.dart';
+
+import '../../../../core/datastate/datastate.dart';
+
 
 part 'booking_hotels_event.dart';
 part 'booking_hotels_state.dart';
 
 class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   BookingHotelsBloc(
-    this._getProvUseCase,
-    this._getCityUseCase,
+
+    this._getListHotelsUseCase,
+    this._getDetailHotelsUseCase,
+    this._setReservationUseCase,
+    this._getAllReservationUseCase,
   ) : super(const BookingHotelsState()) {
-    on<BookingStartedEvent>(_onStartEvent);
-    on<BookingFirstDesChangedEvent>(_onFirstDesChange);
     on<BookingFirstDateChangedEvent>(_onFirstDateChange);
-    on<BookingSubmittedEvent>(_onSubmitted);
+    on<BookingFormSubmittedEvent>(_onSubmitted);
+    on<BookingClickedItemEvent>(_onClickItem);
+    on<BookingReservationEvent>(_onReservation);
+    on<BookingGetAllReservation>(_onGetReservation);
   }
 
-  final GetCityUseCase _getCityUseCase;
-  final GetProvUseCase _getProvUseCase;
-
-  FutureOr<void> _onStartEvent(
-      BookingStartedEvent event, Emitter<BookingHotelsState> emit) async {
-    final dataState = await _getProvUseCase();
-    if (dataState is DataSuccess) {
-      emit(BookingInitialState(optionsProv: dataState.data!));
-      emit(BookingStandbyState());
-    } else {
-      emit(const BookingInitialState(optionsProv: []));
-      emit(BookingStandbyState());
-    }
-  }
-
-  FutureOr<void> _onFirstDesChange(
-      BookingFirstDesChangedEvent event, Emitter<BookingHotelsState> emit) async {
-    String? idFirstDes = event.idDes;
-    bool? isFirstDesValid = event.isFirstDesValid;
-    if (isFirstDesValid) {
-      final dataState = await _getCityUseCase(params: idFirstDes);
-      if (dataState is DataSuccess) {
-        emit(BookingDesChangedState(
-            optionsCity: dataState.data!, isFirstDesValid: isFirstDesValid));
-        emit(BookingStandbyState());
-      } else {
-        emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
-        emit(BookingStandbyState());
-      }
-    } else {
-      emit(BookingDesChangedState(optionsCity: [], isFirstDesValid: isFirstDesValid));
-      emit(BookingStandbyState());
-    }
-  }
+  final GetListHotelsUseCase _getListHotelsUseCase;
+  final GetDetailHotelsUseCase _getDetailHotelsUseCase;
+  final SetReservationUseCase _setReservationUseCase;
+  final GetAllReservationUseCase _getAllReservationUseCase;
 
   FutureOr<void> _onFirstDateChange(
       BookingFirstDateChangedEvent event, Emitter<BookingHotelsState> emit) {
@@ -62,11 +39,39 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   }
 
   FutureOr<void> _onSubmitted(
-      BookingSubmittedEvent event, Emitter<BookingHotelsState> emit) {
-    if (state.isValid) {
-      print('valid');
-    } else {
-      print('invalid');
+      BookingFormSubmittedEvent event, Emitter<BookingHotelsState> emit) async {
+    var data = await _getListHotelsUseCase(params: event.reqBookingEntity);
+
+    if (data is DataSuccess) {
+      emit(BookingNavigateToNextPage());
+      emit(BookingSearchedState(listHotels: data.data));
+    }
+  }
+
+  FutureOr<void> _onClickItem(
+      BookingClickedItemEvent event, Emitter<BookingHotelsState> emit) async {
+    var data = await _getDetailHotelsUseCase(params: event.entity);
+    if (data is DataSuccess) {
+      emit(BookingNavigateToNextPage());
+      emit(BookingDetailState(hotelsEntity: data.data));
+    }
+  }
+
+  FutureOr<void> _onReservation(
+      BookingReservationEvent event, Emitter<BookingHotelsState> emit) async {
+    print('start getting hotels');
+    var data = await _setReservationUseCase(params: event.entity);
+    if (data is DataSuccess) {
+      emit(BookingNavigateToNextPage());
+    }
+  }
+
+  FutureOr<void> _onGetReservation(
+      BookingGetAllReservation event, Emitter<BookingHotelsState> emit) async {
+    var data = await _getAllReservationUseCase();
+    if (data is DataSuccess) {
+      emit(BookingGetReservationState(listHotels: data.data));
+
     }
   }
 }

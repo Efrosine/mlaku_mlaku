@@ -1,5 +1,9 @@
 import 'package:mlaku_mlaku/core/datastate/datastate.dart';
+
+import 'package:mlaku_mlaku/features/data/datasources/api/geo_service.dart';
+
 import 'package:mlaku_mlaku/features/data/datasources/firebase/geo_service.dart';
+
 import 'package:mlaku_mlaku/features/data/model/geo_model.dart';
 import 'package:mlaku_mlaku/features/domain/repositories/geo_repo.dart';
 
@@ -12,7 +16,9 @@ class GeoRepoImpl extends GeoRepo {
   Future<DataState<List<GeoModel>, void>> getCity(String provId) async {
     try {
       final respon = await _service.getCity(provId);
-      final data = respon.data['data'] as List;
+
+      final data = respon.data as List;
+
       final result = data.map((e) => GeoModel.fromJson(e)).toList();
       return DataSuccess(result);
     } catch (e) {
@@ -24,7 +30,9 @@ class GeoRepoImpl extends GeoRepo {
   Future<DataState<List<GeoModel>, void>> getProv() async {
     try {
       final respon = await _service.getProv();
-      final data = respon.data['data'] as List;
+
+      final data = respon.data as List;
+
       final result = data.map((e) => GeoModel.fromJson(e)).toList();
       return DataSuccess(result);
     } catch (e) {

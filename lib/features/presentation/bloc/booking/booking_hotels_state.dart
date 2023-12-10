@@ -2,42 +2,24 @@ part of 'booking_hotels_bloc.dart';
 
 final class BookingHotelsState extends Equatable {
   const BookingHotelsState({
-    this.optionsProv,
-    this.optionsCity,
-    this.idFirstDes = '',
+
     this.firstDate,
-    this.isFirstDesValid = false,
     this.isFristDateValid = false,
     this.isValid = false,
+    this.listHotels,
+    this.hotelsEntity,
   });
   final DateTime? firstDate;
-  final String idFirstDes;
-  final bool isFirstDesValid, isFristDateValid, isValid;
-  final List<GeoEntity>? optionsProv, optionsCity;
+
+  final bool isFristDateValid, isValid;
+  final List<HotelsEntity>? listHotels;
+  final HotelsEntity? hotelsEntity;
 
   @override
   List<Object> get props => [
-        isFirstDesValid,
         isValid,
-        idFirstDes,
-        isFirstDesValid,
         firstDate ?? '',
-        optionsProv ?? {},
-        optionsCity ?? {},
       ];
-}
-
-final class BookingInitialState extends BookingHotelsState {
-  const BookingInitialState({
-    required super.optionsProv,
-  });
-}
-
-final class BookingDesChangedState extends BookingHotelsState {
-  const BookingDesChangedState({
-    required super.optionsCity,
-    required super.isFirstDesValid,
-  });
 }
 
 final class BookingDateChangedState extends BookingHotelsState {
@@ -45,3 +27,18 @@ final class BookingDateChangedState extends BookingHotelsState {
 }
 
 final class BookingStandbyState extends BookingHotelsState {}
+
+final class BookingNavigateToNextPage extends BookingHotelsState {}
+
+final class BookingSearchedState extends BookingHotelsState {
+  const BookingSearchedState({required super.listHotels});
+}
+
+final class BookingDetailState extends BookingHotelsState {
+  const BookingDetailState({required super.hotelsEntity});
+}
+
+final class BookingGetReservationState extends BookingHotelsState {
+  const BookingGetReservationState({required super.listHotels});
+}
+

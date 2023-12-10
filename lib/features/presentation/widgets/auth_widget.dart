@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/auth/auth_bloc_bloc.dart';
 
 import '../../domain/entities/user_ent.dart';
-import 'globalcomponent/comp_text_field.dart';
+
+import 'globalcomponent/comp_textfield_auth.dart';
+
 
 class AuthWidget extends StatelessWidget {
   final bool isLogin;
@@ -31,13 +33,17 @@ class AuthWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 32),
-              CTextFieldAuth(
+
+              TextFieldAuth(
+
                 controller: emailController,
                 label: 'Email',
                 isPassword: false,
               ),
               SizedBox(height: 32),
-              CTextFieldAuth(
+
+              TextFieldAuth(
+
                 controller: passwordController,
                 label: 'Passworddddd',
                 isPassword: true,
@@ -56,31 +62,32 @@ class AuthWidget extends StatelessWidget {
                 child: Text(
                     isLogin ? 'Belum punya akun ? Daftar' : 'Sudah punya akun ? Login'),
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (isLogin) {
+                      BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventLogIn(
+                        UserEntity(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ),
+                      ));
+                    } else {
+                      BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventSignUp(
+                        UserEntity(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ),
+                      ));
+                    }
+                  },
+                  child: Text(isLogin ? 'Login' : 'Register'),
+                ),
+              ),
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              onPressed: () {
-                if (isLogin) {
-                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventLogIn(
-                    UserEntity(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    ),
-                  ));
-                } else {
-                  BlocProvider.of<AuthBlocBloc>(context).add(AuthBlocEventSignUp(
-                    UserEntity(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    ),
-                  ));
-                }
-              },
-              child: Text(isLogin ? 'Login' : 'Register'),
-            ),
-          ),
+
         ],
       ),
     );
