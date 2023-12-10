@@ -81,9 +81,9 @@ class _AuthPageState extends State<AuthPage> {
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, '/main');
-                            context
-                                .read<BookingHotelsBloc>()
-                                .add(BookingGetAllReservation());
+                            // context
+                            //     .read<BookingHotelsBloc>()
+                            //     .add(BookingGetAllReservation());
                           },
                           child: Text('OK'),
                         ),

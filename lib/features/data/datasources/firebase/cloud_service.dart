@@ -34,4 +34,12 @@ class CloudService {
         .collection('reservation')
         .get();
   }
+
+  Stream<QuerySnapshot> getDocHotels() {
+    return _db
+        .collection('users')
+        .doc(_prefs.getString('uid'))
+        .collection('reservation')
+        .snapshots();
+  }
 }
