@@ -38,7 +38,7 @@ Future<void> initDepedencies() async {
     //repo
     ..registerSingleton<AuthRepo>(AuthRepoImpl(sl(), sl()))
     ..registerSingleton<GeoRepo>(GeoRepoImpl(sl()))
-    ..registerSingleton<BookingHotelsRepo>(BookingHotelsRepoImpl(sl()))
+    ..registerSingleton<BookingHotelsRepo>(BookingHotelsRepoImpl(sl(), sl()))
     //usecase auth
     ..registerSingleton<LogInUseCase>(LogInUseCase(sl()))
     ..registerSingleton<SignUpUseCase>(SignUpUseCase(sl()))
@@ -51,9 +51,12 @@ Future<void> initDepedencies() async {
     ..registerSingleton<GetProvUseCase>(GetProvUseCase(geoRepo: sl()))
     ..registerSingleton<GetCityUseCase>(GetCityUseCase(geoRepo: sl()))
     ..registerSingleton<GetListHotelsUseCase>(GetListHotelsUseCase(repo: sl()))
+    ..registerSingleton<GetDetailHotelsUseCase>(GetDetailHotelsUseCase(repo: sl()))
+    ..registerSingleton<SetReservationUseCase>(SetReservationUseCase(repo: sl()))
+    ..registerSingleton<GetAllReservationUseCase>(GetAllReservationUseCase(repo: sl()))
     //bloc
     ..registerFactory<GeoBloc>(() => GeoBloc(sl(), sl()))
-    ..registerFactory<BookingHotelsBloc>(() => BookingHotelsBloc(sl()))
+    ..registerFactory<BookingHotelsBloc>(() => BookingHotelsBloc(sl(), sl(), sl(), sl()))
     ..registerFactory<AuthBlocBloc>(
         () => AuthBlocBloc(sl(), sl(), sl(), sl(), sl(), sl()));
 }

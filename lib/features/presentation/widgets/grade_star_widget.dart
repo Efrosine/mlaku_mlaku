@@ -19,7 +19,7 @@ class GradeStarWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => Icon(
           Icons.star,
-          color: Colors.yellow,
+          color: Colors.yellow[700],
           size: 16,
         ),
       ),

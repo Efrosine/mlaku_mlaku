@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:mlaku_mlaku/core/const/string.dart';
-import 'package:mlaku_mlaku/features/data/model/req_hotels_model.dart';
+import 'package:mlaku_mlaku/features/data/model/hotel_model.dart';
 
-import '../../../../core/const/api_header.dart';
+import 'package:mlaku_mlaku/features/data/model/req_hotels_model.dart';
 
 class BookingHotelsService {
   BookingHotelsService(Dio dio) : _dio = dio;
@@ -30,6 +29,19 @@ class BookingHotelsService {
         'search_type': destType,
         'arrival_date': reqModel.arrivalDate,
         'departure_date': reqModel.departureDate,
+      },
+      options: Options(headers: {
+        'X-RapidAPI-Key': '2e7aa97237msh89ce8f771546c47p1fe7acjsn105dde33f0df',
+        'X-RapidAPI-Host': 'booking-com15.p.rapidapi.com',
+      }),
+    );
+  }
+
+  Future<Response> getDetailHotes(HotelsModel model) async {
+    return await _dio.get(
+      'https://booking-com15.p.rapidapi.com/api/v1/hotels/getDescriptionAndInfo',
+      queryParameters: {
+        'hotel_id': model.id.toString(),
       },
       options: Options(headers: {
         'X-RapidAPI-Key': '2e7aa97237msh89ce8f771546c47p1fe7acjsn105dde33f0df',

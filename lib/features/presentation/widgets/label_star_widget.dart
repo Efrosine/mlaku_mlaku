@@ -13,20 +13,26 @@ class LabelNStarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
-          width: 8,
-        ),
+        SizedBox(width: 8),
         Container(
-          padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.indigo[50], borderRadius: BorderRadius.circular(24)),
+          padding: EdgeInsets.all(8),
+          decoration:
+              BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
           child: Row(
             children: [
-              Icon(Icons.location_city),
-              Text('Hotels'),
+              Icon(
+                Icons.location_city,
+                color: Colors.blue,
+                size: 18,
+              ),
+              Text(
+                'Hotels',
+                style: TextStyle(color: Colors.blue),
+              ),
             ],
           ),
         ),
+        SizedBox(width: 8),
         GradeStarWidget(
           countStar: countStar,
         ),

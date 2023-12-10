@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mlaku_mlaku/features/presentation/bloc/auth/auth_bloc_bloc.dart';
+import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bloc.dart';
 import 'package:mlaku_mlaku/features/presentation/pages/auth/entry_data_page.dart';
 import 'package:mlaku_mlaku/features/presentation/widgets/auth_widget.dart';
 
@@ -80,6 +81,9 @@ class _AuthPageState extends State<AuthPage> {
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, '/main');
+                            context
+                                .read<BookingHotelsBloc>()
+                                .add(BookingGetAllReservation());
                           },
                           child: Text('OK'),
                         ),

@@ -24,6 +24,16 @@ final class BookingFormSubmittedEvent extends BookingHotelsEvent {
   const BookingFormSubmittedEvent({required this.reqBookingEntity});
 }
 
-final class BookingClickedItemEvent extends BookingHotelsEvent {}
+final class BookingClickedItemEvent extends BookingHotelsEvent {
+  final HotelsEntity entity;
 
-final class BookingReservationEvent extends BookingHotelsEvent {}
+  const BookingClickedItemEvent({required this.entity});
+}
+
+final class BookingReservationEvent extends BookingHotelsEvent {
+  final HotelsEntity entity;
+
+  const BookingReservationEvent({required this.entity});
+}
+
+final class BookingGetAllReservation extends BookingHotelsEvent {}

@@ -11,8 +11,13 @@ class HotelsRating extends StatelessWidget {
       children: [
         Icon(
           Icons.local_activity,
+          color: Colors.blue,
         ),
-        Text('$rating/5'),
+        SizedBox(width: 8),
+        Text(
+          '$rating/10',
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+        ),
         SizedBox(width: 4),
         Text(desc == null ? '' : desc!)
       ],

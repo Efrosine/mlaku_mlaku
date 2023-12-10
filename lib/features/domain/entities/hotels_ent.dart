@@ -21,6 +21,26 @@ class HotelsEntity extends Equatable {
   final double? rating;
   final int? stars;
 
+  String get getPrice {
+    double value = price!['value'].runtimeType == double
+        ? price!['value']
+        : price!['value'] + 0.00000001;
+    return '${price!['currency']} ${value.toStringAsFixed(2)}';
+  }
+
+  HotelsEntity copyWith(HotelsEntity mod) {
+    return HotelsEntity(
+      address: mod.address ?? address,
+      description: mod.description ?? description,
+      image: mod.image ?? image,
+      id: mod.id ?? id,
+      name: mod.name ?? name,
+      price: mod.price ?? price,
+      rating: mod.rating ?? rating,
+      stars: mod.stars ?? stars,
+    );
+  }
+
   @override
   List<Object?> get props => [
         address,

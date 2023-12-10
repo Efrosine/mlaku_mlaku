@@ -7,4 +7,6 @@ abstract class BookingHotelsRepo {
   Future<DataState<List<HotelsEntity>, void>> getListHotels(
       ReqBookingEntity regBookingEnt);
   Future<DataState<HotelsEntity, void>> getDetailHotels(HotelsEntity hotelsEntity);
+  Future<DataState<void, void>> setReservation(HotelsEntity hotelsEntity);
+  Future<DataState<List<HotelsEntity>, void>> getAllReservation();
 }

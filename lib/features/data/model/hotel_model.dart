@@ -40,4 +40,17 @@ class HotelsModel extends HotelsEntity {
       stars: data['propertyClass'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'address': address,
+      'description': description,
+      'image': image,
+      'id': id,
+      'name': name,
+      'price': price,
+      'rating': rating,
+      'stars': stars,
+    };
+  }
 }

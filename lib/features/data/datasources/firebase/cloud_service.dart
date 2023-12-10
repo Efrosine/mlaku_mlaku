@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mlaku_mlaku/features/data/model/hotel_model.dart';
 import 'package:mlaku_mlaku/features/data/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +9,6 @@ class CloudService {
   final FirebaseFirestore _db;
   final SharedPreferences _prefs;
 
-  Future<QuerySnapshot> getCollection(String collection) async {
-    return await _db.collection('users').get();
-  }
-
   Future<DocumentSnapshot> getDocument(String collection, String id) async {
     return await _db.collection(collection).doc(_prefs.getString('uid')).get();
   }
@@ -20,12 +17,21 @@ class CloudService {
     await _db.collection('users').doc(_prefs.getString('uid')).set(data.toJson());
   }
 
-  Future<void> updateDocument(
-      String collection, String id, Map<String, dynamic> data) async {
-    await _db.collection('users').doc(_prefs.getString('uid')).update(data);
+  Future<void> addReservation(HotelsModel data) async {
+    await _db
+        .collection('users')
+        .doc(_prefs.getString('uid'))
+        .collection('reservation')
+        .doc(data.id.toString())
+        .set(data.toJson());
   }
 
-  Future<void> deleteDocument(String collection, String id) async {
-    await _db.collection('users').doc(_prefs.getString('uid')).delete();
+  Future<QuerySnapshot> getAllReservation() async {
+    print('get service');
+    return await _db
+        .collection('users')
+        .doc(_prefs.getString('uid'))
+        .collection('reservation')
+        .get();
   }
 }
