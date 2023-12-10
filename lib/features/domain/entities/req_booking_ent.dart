@@ -1,14 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class ReqBookingEntity extends Equatable {
+
   ReqBookingEntity({
+
     this.city,
     this.province,
     this.destId,
     this.searchType,
     this.arrivalDate,
     this.departureDate,
+
   });
+
 
   ReqBookingEntity.empty()
       : arrivalDate = null,
@@ -34,4 +38,5 @@ class ReqBookingEntity extends Equatable {
         province,
         searchType,
       ];
+
 }

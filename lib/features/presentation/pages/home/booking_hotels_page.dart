@@ -5,6 +5,7 @@ import 'package:mlaku_mlaku/features/presentation/bloc/booking/booking_hotels_bl
 
 import '../../../../core/const/list.dart';
 import '../../../../injection_container.dart';
+
 import '../../bloc/geo/geo_bloc.dart';
 import '../../widgets/globalcomponent/comp_custom_carousel.dart';
 import '../../widgets/globalcomponent/comp_textfield_datepicker.dart';
@@ -32,6 +33,7 @@ class BookingHotelsPage extends StatelessWidget {
       //     },
       //     child: Scaffold(body: BookingPageContent())));
     ], child: Scaffold(body: BookingPageContent()));
+
   }
 }
 
@@ -45,6 +47,7 @@ class BookingPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocListener<BookingHotelsBloc, BookingHotelsState>(
       listenWhen: (previous, current) => current is BookingNavigateToNextPage,
       listener: (context, state) {
@@ -154,6 +157,7 @@ class BookingPageContent extends StatelessWidget {
           ),
         ],
       ),
+
     );
   }
 }

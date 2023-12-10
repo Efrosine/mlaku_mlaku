@@ -5,6 +5,7 @@ List<String> imageUrl = [
   'assets/image/promo/promo4.jpg',
 ];
 
+
 List<String> imageHotels = [
   'https://travelji.com/wp-content/uploads/Hotel-Tips.jpg',
   'https://travelingcanucks.com/wp-content/uploads/2014/07/radisson-hotel.jpg',
@@ -17,3 +18,4 @@ List<String> imageHotels = [
   'https://www.topcompanions.com/static/968f69b6c648cddbe63001ee8fa00399/d2f4e/Luxury-hotels-Dubai.jpg',
   'https://the-manpower.com/wp-content/uploads/2020/12/Dubai-scaled.jpg',
 ];
+

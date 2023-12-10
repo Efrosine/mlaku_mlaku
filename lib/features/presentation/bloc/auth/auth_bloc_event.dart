@@ -22,6 +22,8 @@ class AuthBlocEventLogout extends AuthBlocEvent {}
 
 class AuthBlocEventInit extends AuthBlocEvent {}
 
+
 class AuthBlocEventEntryDataUser extends AuthBlocEvent {
   AuthBlocEventEntryDataUser(UserEntity user) : super(user: user);
 }
+

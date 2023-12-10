@@ -8,11 +8,13 @@ import 'package:mlaku_mlaku/features/domain/usecases/booking_hotels_usecase.dart
 
 import '../../../../core/datastate/datastate.dart';
 
+
 part 'booking_hotels_event.dart';
 part 'booking_hotels_state.dart';
 
 class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
   BookingHotelsBloc(
+
     this._getListHotelsUseCase,
     this._getDetailHotelsUseCase,
     this._setReservationUseCase,
@@ -69,6 +71,7 @@ class BookingHotelsBloc extends Bloc<BookingHotelsEvent, BookingHotelsState> {
     var data = await _getAllReservationUseCase();
     if (data is DataSuccess) {
       emit(BookingGetReservationState(listHotels: data.data));
+
     }
   }
 }

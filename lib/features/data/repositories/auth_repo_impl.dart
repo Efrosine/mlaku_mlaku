@@ -15,6 +15,10 @@ class AuthRepoImpl extends AuthRepo {
 
   AuthRepoImpl(this._service, this._cloudService);
 
+
+  AuthRepoImpl(this._service);
+
+
   @override
   Future<DataState<void, LogInEnPException>> logIn(UserEntity user) async {
     try {
@@ -57,10 +61,12 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<bool> loginCheck() {
     return _service.getUserId() == null ? Future.value(false) : Future.value(true);
+
   }
   
   @override
   Future<void> entryDataUser(UserEntity user) {
    return _cloudService.entryDataUser(UserModel.fromEntity(user));
+
   }
 }

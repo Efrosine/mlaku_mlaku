@@ -18,14 +18,18 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     this._authCheckUseCase,
     this._loginCheckUseCase,
     this._logOutUseCase,
+
     this._entryDataUseCase,
+
   ) : super(AuthBlocInitial()) {
     on<AuthBlocEventInit>(_init);
     on<AuthBlocEventChangeAuth>(_changeAuth);
     on<AuthBlocEventLogIn>(_logIn);
     on<AuthBlocEventSignUp>(_signUp);
     on<AuthBlocEventLogout>(_logOut);
+
     on<AuthBlocEventEntryDataUser>(_entryDataUser);
+
   }
 
   bool isLogin = true;
@@ -35,7 +39,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   final LoginCheckUseCase _loginCheckUseCase;
   final SignUpUseCase _signUpUseCase;
   final LogOutUseCase _logOutUseCase;
+
   final EntryDataUseCase _entryDataUseCase;
+
 
   FutureOr<void> _changeAuth(AuthBlocEventChangeAuth event, Emitter<AuthBlocState> emit) {
     if (isLogin) {
@@ -60,7 +66,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   FutureOr<void> _signUp(AuthBlocEventSignUp event, Emitter<AuthBlocState> emit) async {
     await _signUpUseCase(params: event.user).then((dataState) {
       if (dataState is DataSuccess) {
+
         emit(AuthBlocUserEntryDataState(user: event.user!));
+
       } else if (dataState is DataError) {
         emit(AuthBlocStateError(dataState.exception!.message));
       }
@@ -83,9 +91,11 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     if (result is DataSuccess) emit(AuthBlocStateSignIn());
   }
 
+
   FutureOr<void> _entryDataUser(
       AuthBlocEventEntryDataUser event, Emitter<AuthBlocState> emit) async {
     await _entryDataUseCase(params: event.user);
     emit(AuthBlocStateDone());
   }
+
 }

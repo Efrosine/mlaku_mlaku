@@ -7,6 +7,7 @@ sealed class BookingHotelsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+
 final class BookingFirstDateChangedEvent extends BookingHotelsEvent {
   final DateTime firstDate;
   final bool isFristDateValid;
@@ -17,6 +18,7 @@ final class BookingFirstDateChangedEvent extends BookingHotelsEvent {
   @override
   List<Object> get props => [firstDate];
 }
+
 
 final class BookingFormSubmittedEvent extends BookingHotelsEvent {
   final ReqBookingEntity reqBookingEntity;
@@ -37,3 +39,4 @@ final class BookingReservationEvent extends BookingHotelsEvent {
 }
 
 final class BookingGetAllReservation extends BookingHotelsEvent {}
+

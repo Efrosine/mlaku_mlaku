@@ -10,5 +10,7 @@ abstract class AuthRepo {
   Future<DataState<void, LogOutException>> logout();
   Future<void> authCheck();
   Future<bool> loginCheck();
+
   Future<void> entryDataUser(UserEntity user);
+
 }

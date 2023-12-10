@@ -2,6 +2,7 @@ part of 'booking_hotels_bloc.dart';
 
 final class BookingHotelsState extends Equatable {
   const BookingHotelsState({
+
     this.firstDate,
     this.isFristDateValid = false,
     this.isValid = false,
@@ -40,3 +41,4 @@ final class BookingDetailState extends BookingHotelsState {
 final class BookingGetReservationState extends BookingHotelsState {
   const BookingGetReservationState({required super.listHotels});
 }
+

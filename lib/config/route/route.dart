@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mlaku_mlaku/features/presentation/pages/home/booking_hotels_page.dart';
 import 'package:mlaku_mlaku/features/presentation/pages/home/detail_hotels_page.dart';
 
+
 import '../../features/presentation/pages/auth/auth_page.dart';
 import '../../features/presentation/pages/home/list_hotels_page.dart';
 import '../../features/presentation/pages/nav_bar.dart';
@@ -15,6 +16,7 @@ class AppRoute {
         return _materialRoute(Navbar());
       case '/BHPage':
         return _materialRoute(BookingHotelsPage());
+
       case '/LHPage':
         return _materialRoute(ListHotelsPage());
       case '/DHPage':
